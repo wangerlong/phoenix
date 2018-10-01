@@ -50,9 +50,8 @@ class MediaLoader(private val activity: FragmentActivity, type: Int, private val
                                     activity,
                                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                                     IMAGE_PROJECTION,
-                                    IMAGE_SELECTION
-                                            + sizeCondition,
-                                    IMAGE_SELECTION_ARGS,
+                                    isGif ? IMAGE_SELECTION_ALL : IMAGE_SELECTION + sizeCondition,
+                                    isGif ?  null : IMAGE_SELECTION_ARGS,
                                     MediaStore.Files.FileColumns.DATE_ADDED + " DESC")
                             PhoenixConstant.TYPE_VIDEO -> CursorLoader(
                                     activity,
@@ -268,6 +267,12 @@ class MediaLoader(private val activity: FragmentActivity, type: Int, private val
                 LATITUDE,
                 LONGITUDE)
 
+        /**
+         * 图片 全部 - SELECTION
+         */
+        private val IMAGE_SELECTION_ALL = (
+                MediaStore.Images.Media.MIME_TYPE + "=" + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE    
+                )
         /**
          * 图片 - SELECTION
          */
